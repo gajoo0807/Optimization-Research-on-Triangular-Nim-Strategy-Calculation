@@ -48,3 +48,5 @@ After the computation is complete, the winning strategy for Triangular Chess wil
 g++ game.cpp -o game.out -std=c++11 -O3
 ./game.out
 ```
+
+## Reference
