@@ -49,4 +49,24 @@ g++ game.cpp -o game.out -std=c++11 -O3
 ./game.out
 ```
 
+### Visualize the chessboard
+```jsx
+g++ visual.cc -o visual.out -std=c++11 -O3
+./visual.out
+```
+You need to type the numbers of the pieces you want to remove in a game. To know how to interact with the terminal, use `visual.out` can visualize a basic chessboard and also visualize your move if you turn your move into binary bit string, e.g. if you want to remove #1 and #2 pieces, your bit string is 0000000000000000000000000011.
+
+## Makefile
+
+You can use Makefile to compile. Just type `make` in terminal.
+```jsx
+make
+```
+
+
+
 ## Reference
+
+Yi Chang Shan, I-Chen Wu, Hung Hsuan Lin, Kuo Yuan Kao , “Solving Nine Layer Triangular Nim”, 2012
+S. Q. Bai and S. S. Lin, “On the study of 8 layer Triangular Nim,” in Proceedings of National Computer Symposium, 2009, pp. 60-71. 
+H. H. Lin, I. C. Wu, and Y. C. Shan, “Solving eight layer Triangular Nim,” in Proceedings of National Computer Symposium, 2009, pp. 200-204. 
