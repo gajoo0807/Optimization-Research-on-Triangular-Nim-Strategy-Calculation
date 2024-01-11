@@ -16,7 +16,7 @@ using namespace std;
 int walk[WALKNUM];	//儲存可行著手數
 vector<int> ans(std::pow(2, 28), 0);
 std::deque<int> cur_task;
-pthread_mutex_t mutex;
+pthread_mutex_t mutex1;
 
 pthread_cond_t cond_consumer;
 
@@ -87,17 +87,17 @@ void* processTask(void* arg) {
 
     // 每個線程處理一個 cur_task 任務
     while(1){
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(&mutex1);
         while(cur_task.empty()){
-            pthread_cond_wait(&cond_consumer, &mutex); 
+            pthread_cond_wait(&cond_consumer, &mutex1); 
         }
         i = cur_task[0];
         if(i == -1){
-            pthread_mutex_unlock(&mutex);
+            pthread_mutex_unlock(&mutex1);
             break;
         }
         cur_task.pop_front();
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(&mutex1);
         for(int j = 0; j < WALKNUM; j ++){
             if((walk[j] & i) == 0){ 
                 temp =	(walk[j] | i );	
@@ -125,17 +125,17 @@ void* generateCombination(void* arg){
                 }
             }
             temp += (threadId << 27);
-            pthread_mutex_lock(&mutex); // 這邊會卡住，不知道為什麼
+            pthread_mutex_lock(&mutex1); // 這邊會卡住，不知道為什麼
             cur_task.push_back(temp);
             pthread_cond_signal(&cond_consumer);
-            pthread_mutex_unlock(&mutex);
+            pthread_mutex_unlock(&mutex1);
         }while(std::next_permutation(bitmask.begin(), bitmask.end()));
     }
 
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(&mutex1);
     cur_task.push_back(-1);
     pthread_cond_broadcast(&cond_consumer);
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&mutex1);
     pthread_exit(NULL);
 }
 
@@ -170,8 +170,9 @@ void write_binary(){
 
 int main(){
     pthread_cond_init(&cond_consumer, NULL);
-    
+    pthread_mutex_init(&mutex1, NULL);
     readwalk();
     soul_parallels(); 
     write_binary();
+    pthread_mutex_destroy(&mutex1);
 }

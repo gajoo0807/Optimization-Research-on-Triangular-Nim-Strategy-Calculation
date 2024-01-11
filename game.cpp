@@ -16,7 +16,6 @@ using namespace std;
 int win_situation[(1<<TOTALPIECE) - 1] = {0};
 void printTriangle(int);
 void playGame();
-void printIntro();
 int computerTurn(int chessboard);
 void readall_walk(vector<int>& allwalk);
 void printSpecialTriangle(int chessboard, int next_move);
@@ -100,7 +99,6 @@ void playGame() {
             std::getline(std::cin, str_waiting);
             break;
         }
-        
         cout << "\nYour Turn:" << endl;
         chessboard = userTurn(chessboard, userInputInt, allwalk);
         
@@ -119,7 +117,7 @@ void playGame() {
 // win_situation stores the next chessboard integer that eventually wins
 void read_win_situation() {
     std::fstream fin;
-    fin.open("misere_ans.bin", std::ios_base::binary|std::ios_base::in);
+    fin.open("para3_ans.bin", std::ios_base::binary|std::ios_base::in);
     if (!fin.is_open()) {
         perror ("Error opening file");
     } 
@@ -158,7 +156,6 @@ void printSpecialTriangle(int chessboard, int next_move) {
         for (int j = 0; j < LAYER - i; ++j) {
             std::cout << " ";
         }
-
         // Print bits with 'O' or 'X'
         for (int j = 0; j < i; ++j) {
             if(next_move & 1) {
@@ -172,7 +169,6 @@ void printSpecialTriangle(int chessboard, int next_move) {
             chessboard >>= 1;
             next_move >>= 1;
         }
-
         std::cout << std::endl;
     }
 }
@@ -196,7 +192,6 @@ void printTriangle(int chessboard) {
             std::cout << symbol << " ";
             chessboard >>= 1;
         }
-
         std::cout << std::endl;
     }
 }
@@ -212,17 +207,3 @@ void readall_walk(vector<int>& allwalk) {
     while(fin>>allwalk[count++]) {}
     fin.close();
 }
-void printIntro() {
-
-}
-
-
-// turn cooridinate to the encoding of chess
-// int translate(int row, int col) { 
-//     int res = 0;
-//     for(int i = 1; i < row; i++) {
-//         res += i;
-//     }
-//     res += col;
-//     return res;
-// }
